@@ -66,9 +66,9 @@
         "supplier": "Hornbach",
         "number": "DD-1023",
         "date": "2026-12-13",
-        "net": 100.00,
-        "vat": 19.00,
-        "total": 119.00,
+        "net": 200.00,
+        "vat": 38.00,
+        "total": 238.00,
         "currency": "RON"
     },
     {
