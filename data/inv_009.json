@@ -1,0 +1,9 @@
+{
+    "supplier": "LeRoy Merlin",
+    "number": "DD-1012",
+    "date": "2025-10-23",
+    "net": 100.00,
+    "vat": 19.00,
+    "total": 130.00,
+    "currency": "RON"
+}

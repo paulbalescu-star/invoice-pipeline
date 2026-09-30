@@ -1,8 +1,20 @@
 import json
+from pathlib import Path
+import logging
 
-def load_invoices(path):
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
+
+def load_all_invoices(folder):
+    invoices = []
+    for path in Path(folder).glob("*.json"):
+        try:
+            with open(path, encoding="utf-8") as f:
+                invoices.append(json.load(f))
+        except json.JSONDecodeError:
+            logger.warning("Invalid File, passed: %s", path)
+    logger.info("Loaded %d valid invoices", len(invoices))
+    return invoices
 
 def total_by_supplier(invoices):
     totals = {}
@@ -12,11 +24,10 @@ def total_by_supplier(invoices):
         amount = invoice["total"]
         #check if supplier is already in totals
         if supplier not in totals:
-            #add the current value to the total
+            #add the supplier in the list
             totals[supplier] = 0
         totals[supplier] += amount
-    return totals
-    
+    return totals   
 
 def find_mismatches(invoices):
     wrong_invoices = []
@@ -31,6 +42,8 @@ def find_mismatches(invoices):
     return wrong_invoices
 
 def find_max_invoice(invoices):
+    if not invoices:
+        return None
     max_invoice = invoices[0]
     max_amount = max_invoice["total"]
     for invoice in invoices:
@@ -40,20 +53,23 @@ def find_max_invoice(invoices):
         if amount > max_amount:
             max_amount = amount
             max_invoice = invoice
-    return max_invoice;
+    return max_invoice
 
 def main():
-    #load invoices
-    invoices = load_invoices("invoices.json")
-    #calculate the total by supplier
+
+    invoices = load_all_invoices("data")
+
     print(f" Total amount of each supplier: \n{total_by_supplier(invoices)}\n")
-    #find mismatched invoices
-    print(f"Wrong invoices: {find_mismatches(invoices)} \n")
-    #find highest invoice
-    print(f"The highest invoice: \n {find_max_invoice(invoices)}")
 
-
+    mismatches = find_mismatches(invoices)
+    print(f"Wrong invoices: {mismatches} \n")
     
+    max_invoice = find_max_invoice(invoices)
+
+    if(max_invoice != None):
+        print(f"The highest invoice: \n {max_invoice}") 
+    else:
+        print(" No invoices")
 
 if __name__ == "__main__":
     main()

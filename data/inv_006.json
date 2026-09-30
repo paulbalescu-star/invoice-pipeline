@@ -1,0 +1,9 @@
+{
+    "supplier": "Dedeman",
+    "number": "DD-1007",
+    "date": "2026-02-03",
+    "net": 100.00,
+    "vat": 19.00,
+    "total": 119.00,
+    "currency": "RON"
+}

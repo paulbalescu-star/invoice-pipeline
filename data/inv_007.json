@@ -1,0 +1,9 @@
+{
+    "supplier": "Hornbach",
+    "number": "DD-1011",
+    "date": "2026-04-23",
+    "net": 100.00,
+    "vat": 19.00,
+    "total": 130.00,
+    "currency": "RON"
+}
